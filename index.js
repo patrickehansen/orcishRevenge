@@ -5,6 +5,7 @@ const config = require ('./config');
 const inert = require('@hapi/inert');
 const token = require('./src/util/token');
 const hapiAuthJWT = require('hapi-auth-jwt2');
+const database = require('./src/data/database');
 
 require('console-ten').init(console);
 //Setup the server

@@ -1,6 +1,7 @@
-//mongodb://<dbuser>:<dbpassword>@ds345597.mlab.com:45597/orcishrevenge
 
 module.exports = {
+    secret: process.env.secret || 'secret',
     host: '0.0.0.0',
-    port: process.env.PORT || 6190
+    port: process.env.PORT || 6190,
+    mongoUrl: 'mongodb://orcishrevenge:qPJE8sRrMnG#%vBj@ds345597.mlab.com:45597/orcishrevenge'
 }
