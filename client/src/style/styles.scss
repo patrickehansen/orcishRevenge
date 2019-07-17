@@ -1,0 +1,55 @@
+#root {
+  div.App {
+    div.mainView {
+      div.homeView {
+        h1 {
+          text-align: center;
+        }
+
+        div.accountActions {
+          border: solid 1px black;
+          text-align: center;
+          padding: 1rem;
+          width: 8rem;
+          margin: auto;
+          margin-top: 5rem;
+
+          span {
+            display: block;
+          }
+        }
+      }
+
+      div.loginView {
+        form.loginForm {
+          border: solid 1px black;
+          text-align: center;
+          padding: 1rem;
+          margin: auto;
+          width: 30rem;
+          margin-top: 5rem;
+
+          h2 {
+            margin-top: 0;
+          }
+
+          span {
+            display: block;
+            margin: 0.5rem 0;
+
+            label {
+              display: inline-block;
+              width: 20%;
+              text-align: right;
+              margin-right: 1rem;
+            }
+
+            input {
+              padding-left: 0.3rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,8 @@ import "@babel/polyfill";
 import React, { Component } from 'react';
 import Home from './home';
 import Main from './main';
+import Login from './account/login';
+import Register from './account/register';
 
 import {
 BrowserRouter as Router,
@@ -36,6 +38,8 @@ class App extends Component {
                     <Main>
                         <Switch>
                             <Route exact path='/' component={Home} />
+                            <Route path='/login' component={Login} />
+                            <Route path='/register' component={Register} />
                         </Switch>
                     </Main>
                 </div>
