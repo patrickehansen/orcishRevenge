@@ -21,5 +21,6 @@ export default async function register (username, email, password) {
     }
   })
 
+  console.log('register reponse', response);
   return response.data;
 }

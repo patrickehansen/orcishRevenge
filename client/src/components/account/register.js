@@ -1,17 +1,52 @@
 'use strict';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import register from '../../requests/register';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import {withStyles} from '@material-ui/styles';
+import {styles} from '../misc/styles';
 
-class Login extends Component {
+import register from '../../requests/register';
+import { Collapse, Paper } from '@material-ui/core';
+
+const IsEmailValid = (Email) => {
+  //Email regex
+  let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+  if (Email && regex.test(String(Email).toLowerCase())) {
+    return !Email.includes('@yahoo.com');
+  }else{
+    return false;
+  }
+}
+
+class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      error: undefined,
+      error: null,
       redirecting: false,
       redirect: false,
     };
+  }
+
+  onError = (error) => {
+    setTimeout(this.clearError, 5 * 1000)
+
+    this.setState({
+      error
+    })
+  }
+
+  clearError = () => {
+    this.setState({
+      error: null
+    })
   }
 
   submit = async e => {
@@ -22,15 +57,18 @@ class Login extends Component {
     const confirm = e.target.elements.confirm.value;
     const email = e.target.elements.email.value;
 
+    if (!IsEmailValid(email)) {
+      this.onError('Email is not valid..');
+      return;
+    }
+
     if (confirm !== pass) {
-      this.setState({ error: 'Passwords do not match..' });
+      this.onError('Passwords do not match..');
       return;
     }
 
     const response = await register(user, email, pass).catch(error => {
-      this.setState({
-        error: error.message,
-      });
+      this.onError(error.message);
     });
 
     if (response) {
@@ -38,71 +76,105 @@ class Login extends Component {
         redirecting: true
       })
 
-      setTimeout(this.setState, 5 * 1000, {redirect: true})
+      setTimeout(this.redirectToLogin, 5 * 1000)
     }
   };
 
+  redirectToLogin = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+
   render() {
+    const {classes} = this.props;
+
     if (this.state.redirect) {
       return <Redirect to="/login" />;
     }
 
     return (
-      <div className="loginView">
-        <form className="loginForm" onSubmit={this.submit}>
-          <h2>Register</h2>
-          <span>
-            <label>Username:</label>
-            <input
-              className="form-control"
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-            />
-          </span>
-          <span>
-            <label>Email:</label>
-            <input
-              className="form-control"
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-            />
-          </span>
-          <span>
-            <label>Password:</label>
-            <input
-              className="form-control"
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-            />
-          </span>
-          <span>
-            <label>Confirm:</label>
-            <input
-              className="form-control"
-              type="password"
-              name="confirm"
-              placeholder="Confirm Password"
-              required
-            />
-          </span>
-          <button className="btn btn-primary btn-block">
-            Submit
-          </button>
-        </form>
-        {this.state.redirecting && 
-          <div className='redirecting'>
-            Registration successful. Redirecting to login page...
-          </div>
-        }
-      </div>
+      <Container component='div' className='registerView card' maxWidth='xs'>
+        <div className={classes.paper}>
+          <LockOutlinedIcon/>
+          <Typography component="h1" variant="h5">
+            Register
+          </Typography>
+          <form className={classes.form} onSubmit={this.submit}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  variant="filled"
+                  label="Username"
+                  autoFocus
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  variant="filled"
+                  label="Email"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  variant="filled"
+                  label="Password"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  type="password"
+                  name="confirm"
+                  placeholder="Confirm Password"
+                  label="Confirm Password"
+                  variant="filled"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button 
+                  className={classes.submit}
+                  variant='contained'
+                  fullWidth
+                  color='primary'
+                  type="submit"
+                  >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
+            
+          </form>
+          <Collapse in={this.state.redirecting} >
+            <Paper elevation={0} className={classes.paper}>
+              Registration successful. Redirecting to login page...
+            </Paper>
+          </Collapse>
+          <Collapse in={!!this.state.error} >
+            <Paper elevation={0} className='error'>
+              {this.state.error}
+            </Paper>
+          </Collapse>
+        </div>
+      </Container>
     );
   }
 }
 
-export default Login;
+export default withStyles(styles)(Register);
