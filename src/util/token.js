@@ -18,7 +18,7 @@ module.exports.validateToken = async function validateToken(decoded) {
   }
 }
 
-module.exports.createToken = async function createToken(user) {
+module.exports.createToken = function createToken(user) {
   //Return a jwt signed token
   return jwt.sign(
     {

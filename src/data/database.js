@@ -8,7 +8,7 @@ const db = mongoose.connection;
 
 const exporting = {
   Ready: false,
-  Close: db.close,
+  Connection: db,
 };
 
 db.on('error', (error) => {

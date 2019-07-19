@@ -19,7 +19,7 @@ module.exports = {
       console.error('Error in create user', error);
 
       if (error.message === 'Duplicate username') {
-        err = Boom.conflict('Username taken');
+        err = Boom.conflict('Username or email taken');
       }else{
         throw error;
       }

@@ -1,6 +1,7 @@
 const database = require('../src/data/database');
 const dataManager = require('../src/data/dataManager');
 const register = require('../src/routes/account/register');
+const login = require('../src/routes/account/login');
 
 describe('accounts', () => {
   beforeAll(async () => {
@@ -34,17 +35,41 @@ describe('accounts', () => {
       throw error;
     });
 
-    //console.log('Well I guess createdAgain is', Object.keys(createdAgain), createdAgain.output, createdAgain.output.payload);
+    expect(createdAgain.output.payload.message).toBe('Username or email taken');
 
+    done();
+  })
 
-    expect(createdAgain.output.payload.message).toBe('Username taken');
+  test('logs in successfully', async (done) => {
+    let loginResponse = await login.handler({payload}).catch(error => {
+      console.error('Error in login', error);
+    })
+
+    expect(typeof loginResponse.id_token).toBe('string');
+
+    done();
+  })
+
+  test('bad password does not work', async (done) => {
+    let loginResponse = await login.handler({payload: {
+      username: payload.username,
+      password: 'wrongPass',
+    }}).catch(error => {
+      console.error('Error in login', error);
+    })
+
+    console.log(Object.keys(loginResponse));
+
+    expect(loginResponse.output.payload.message).toBe('Username or password incorrect.');
 
     done();
   })
   
-  afterAll(async () => {
+  afterAll(async (done) => {
     await dataManager.DeleteAccount(payload.username);
 
-    database.Close();
+    database.Connection.close();
+    database.Connection.on('disconnected', done);
   })
 })
+
