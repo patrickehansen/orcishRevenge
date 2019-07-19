@@ -26,7 +26,7 @@ module.exports = {
     }
 
     if (isValid) {
-      let idToken = token.generateToken(username);
+      let idToken = token.createToken(username);
 
       return {
         id_token: idToken,

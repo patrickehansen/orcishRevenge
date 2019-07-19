@@ -22,10 +22,11 @@ module.exports.VerifyUser = async function VerifyUser(username, password) {
   return isValid;
 }
 
-module.exports.CreateUser = async function CreateUser(username, password, email) {
-  let found = await database.Account.findOne({
-    Username: username
-  }).catch(error => {
+module.exports.CreateAccount = async function CreateAccount(username, password, email) {
+  let found = await database.Account.findOne({$or: [
+    {Username: username},
+    {EmailAddress: email},
+  ]}).catch(error => {
     console.error('Error finding an account', error);
     throw error;
   })
@@ -47,4 +48,16 @@ module.exports.CreateUser = async function CreateUser(username, password, email)
   })
 
   return !!account;
+}
+
+module.exports.DeleteAccount = async function DeleteAccount(username) {
+  let deleted = await database.Account.deleteOne({
+    Username: username
+  })
+}
+
+module.exports.FindAccount = async function FindAccount(username) {
+  return database.Account.findOne({
+    Username: username
+  })
 }
