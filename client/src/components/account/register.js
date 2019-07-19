@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/styles';
 import {styles} from '../misc/styles';
 
+import ErrorComponent from '../util/error';
+
 import register from '../../requests/register';
 import { Collapse, Paper } from '@material-ui/core';
 
@@ -35,20 +37,6 @@ class Register extends Component {
     };
   }
 
-  onError = (error) => {
-    setTimeout(this.clearError, 5 * 1000)
-
-    this.setState({
-      error
-    })
-  }
-
-  clearError = () => {
-    this.setState({
-      error: null
-    })
-  }
-
   submit = async e => {
     e.preventDefault();
 
@@ -58,12 +46,18 @@ class Register extends Component {
     const email = e.target.elements.email.value;
 
     if (!IsEmailValid(email)) {
-      this.onError('Email is not valid..');
+      this.setState({
+        error: 'Email is not valid..'
+      })
+
       return;
     }
 
     if (confirm !== pass) {
-      this.onError('Passwords do not match..');
+      this.setState({
+        error: 'Passwords do not match..'
+      })
+
       return;
     }
 
@@ -166,11 +160,7 @@ class Register extends Component {
               Registration successful. Redirecting to login page...
             </Paper>
           </Collapse>
-          <Collapse in={!!this.state.error} >
-            <Paper elevation={0} className='error'>
-              {this.state.error}
-            </Paper>
-          </Collapse>
+          <ErrorComponent error={this.state.error} />
         </div>
       </Container>
     );

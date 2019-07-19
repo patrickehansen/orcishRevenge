@@ -9,8 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import {styles} from '../misc/styles';
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import { withStyles} from '@material-ui/styles';
-import { Collapse, Paper } from '@material-ui/core';
 
+import ErrorComponent from '../util/error';
 import auth from '../../requests/login';
 import { setToken } from '../../store/actions/actions';
 import store from '../../store/store';
@@ -26,20 +26,6 @@ class Login extends Component {
     };
   }
 
-  onError = (error) => {
-    setTimeout(this.clearError, 5 * 1000)
-
-    this.setState({
-      error
-    })
-  }
-
-  clearError = () => {
-    this.setState({
-      error: null
-    })
-  }
-
   loginSubmit = async e => {
     e.preventDefault();
 
@@ -47,12 +33,16 @@ class Login extends Component {
     let pass = e.target.elements.password.value;
 
     if (!user || !pass) {
-      this.onError('Please enter credentials..');
+      this.setState({
+        error: 'Please enter credentials..'
+      })
       return;
     }
 
     const response = await auth(user, pass).catch(error => {
-      this.onError(error.message);
+      this.setState({
+        error : error.message
+      })
     });
 
     if (response && response.id_token) {
@@ -116,11 +106,7 @@ class Login extends Component {
               </Grid>
           </Grid>
         </form>
-        <Collapse in={!!this.state.error} >
-          <Paper elevation={0} className='error'>
-            {this.state.error}
-          </Paper>
-        </Collapse>
+        <ErrorComponent error={this.state.error} />
       </Container>
     );
   }
