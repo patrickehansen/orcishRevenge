@@ -49,7 +49,7 @@ class Login extends Component {
       let {id_token: token} = response;
 
       store.dispatch(setToken( token));
-      localStorage.setItem(config.tokenIdentifier,token);
+      localStorage.setItem(config.localstorageKey, token);
 
       this.setState({ redirecting: true });
     }
@@ -63,51 +63,53 @@ class Login extends Component {
     }
 
     return (
-      <Container component='div' className='loginView card'>
-        <form className="loginForm" onSubmit={this.loginSubmit}>
-          <Fingerprint />
-          <Typography component="h1" variant="h5">
-          Login
-          </Typography>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.textField}
-                type="text"
-                name="username"
-                placeholder="Username"
-                variant="filled"
-                label="Username"
-                autoFocus
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.textField}
-                type="password"
-                name="password"
-                placeholder="Password"
-                variant="filled"
-                label="Password"
-                autoFocus
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-                <Button 
-                  className={classes.submit}
-                  variant='contained'
-                  color='primary'
-                  type="submit"
-                  >
-                  Submit
-                </Button>
+      <div className='loginPage'>
+        <Container component='div' className='loginView card'>
+          <form className="loginForm" onSubmit={this.loginSubmit}>
+            <Fingerprint />
+            <Typography component="h1" variant="h5">
+            Login
+            </Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  variant="filled"
+                  label="Username"
+                  autoFocus
+                  required
+                />
               </Grid>
-          </Grid>
-        </form>
-        <ErrorComponent error={this.state.error} />
-      </Container>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  variant="filled"
+                  label="Password"
+                  autoFocus
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                  <Button 
+                    className={classes.submit}
+                    variant='contained'
+                    color='primary'
+                    type="submit"
+                    >
+                    Submit
+                  </Button>
+                </Grid>
+            </Grid>
+          </form>
+          <ErrorComponent error={this.state.error} />
+        </Container>
+      </div>
     );
   }
 }

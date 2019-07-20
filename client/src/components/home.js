@@ -24,7 +24,7 @@ class Home extends Component {
     }
 
     return (
-      <Container component='div' className='homeView'> 
+      <Container component='div' className='homeView' maxWidth={false}> 
         <Typography component="h1" variant="h5">
           Orcish Revenge
         </Typography>

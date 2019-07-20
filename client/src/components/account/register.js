@@ -88,81 +88,83 @@ class Register extends Component {
     }
 
     return (
-      <Container component='div' className='registerView card' maxWidth='xs'>
-        <div className={classes.paper}>
-          <LockOutlinedIcon/>
-          <Typography component="h1" variant="h5">
-            Register
-          </Typography>
-          <form className={classes.form} onSubmit={this.submit}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.textField}
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  variant="filled"
-                  label="Username"
-                  autoFocus
-                  required
-                />
+      <div className='registerPage'>
+        <Container component='div' className='registerView card' maxWidth='xs'>
+          <div className={classes.paper}>
+            <LockOutlinedIcon/>
+            <Typography component="h1" variant="h5">
+              Register
+            </Typography>
+            <form className={classes.form} onSubmit={this.submit}>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textField}
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    variant="filled"
+                    label="Username"
+                    autoFocus
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textField}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    variant="filled"
+                    label="Email"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textField}
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    variant="filled"
+                    label="Password"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textField}
+                    type="password"
+                    name="confirm"
+                    placeholder="Confirm Password"
+                    label="Confirm Password"
+                    variant="filled"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button 
+                    className={classes.submit}
+                    variant='contained'
+                    fullWidth
+                    color='primary'
+                    type="submit"
+                    >
+                    Submit
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.textField}
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  variant="filled"
-                  label="Email"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.textField}
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  variant="filled"
-                  label="Password"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.textField}
-                  type="password"
-                  name="confirm"
-                  placeholder="Confirm Password"
-                  label="Confirm Password"
-                  variant="filled"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button 
-                  className={classes.submit}
-                  variant='contained'
-                  fullWidth
-                  color='primary'
-                  type="submit"
-                  >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-            
-          </form>
-          <Collapse in={this.state.redirecting} >
-            <Paper elevation={0} className={classes.paper}>
-              Registration successful. Redirecting to login page...
-            </Paper>
-          </Collapse>
-          <ErrorComponent error={this.state.error} />
-        </div>
-      </Container>
+              
+            </form>
+            <Collapse in={this.state.redirecting} >
+              <Paper elevation={0} className={classes.paper}>
+                Registration successful. Redirecting to login page...
+              </Paper>
+            </Collapse>
+            <ErrorComponent error={this.state.error} />
+          </div>
+        </Container>
+      </div>
     );
   }
 }
