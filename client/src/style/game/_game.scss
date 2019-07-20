@@ -1,0 +1,8 @@
+.gameView-root {
+  background-color: white;
+  color: black;
+
+
+  @import './board';
+  @import './chatroll';
+}

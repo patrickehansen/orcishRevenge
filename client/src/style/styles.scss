@@ -1,4 +1,4 @@
-@import './settings';
+@import './misc/settings';
 
 body {
   margin: 0;
@@ -6,104 +6,12 @@ body {
 }
 
 #root {
-  
   div.App {
     div.mainView {
       position: absolute;
       height: 100%;
       width: 100%;
-
-      background-image: url('../../assets/forest1080.jpg') ; 
-      background-repeat: no-repeat;
-      background-color: black;
-      background-size: auto;
-
       color: white;
-
-      div.homeView {
-        h1 {
-          margin-top: 10rem;
-          text-align: center;
-          text-shadow: 2px 2px #1a0000
-        }
-
-        
-      }
-
-      div.card {
-        background-color: $bgGray_75;
-        color: white;
-        margin-top: 10rem;
-        max-width: 288px;
-        padding-top: 1rem;
-        border-radius: 3px;
-        box-shadow: 3px 3px 8px black;
-
-        h1 {
-          margin: 1rem;
-          text-align: center;
-          text-shadow: 2px 2px #1a0000
-        }
-
-        .MuiTextField-root {
-          border-top-left-radius: 5px;
-          border-top-right-radius: 4px;
-          background-color: $bright_50;
-        }
-
-        .MuiFilledInput-root {
-          background-color: $bright_50;
-          color: white;
-        }
-
-        .MuiLink-root {
-          color: $primary_bright;
-        }
-      }
-
-      div.loginView {
-        form.loginForm {
-          text-align: center;
-          padding: 1rem;
-          margin: auto;
-
-          svg {
-            height: 3rem;
-            width: 3rem;
-          }
-
-          button {
-            width: 10rem;
-          }
-        }
-      }
-
-      div.registerView {
-        padding-bottom: 1rem;
-
-        svg {
-          height: 3rem;
-          width: 3rem;
-        }
-      }
-
-      div.accountActions {
-        text-align: center;
-        padding: 1rem;
-        width: 15rem;
-        margin: auto;
-        margin-top: 5rem;
-
-        span {
-          display: block;
-          margin: 0.5rem 0;
-        }
-
-        a {
-          text-shadow: 2px 2px black;
-          font-size: 1.3rem;
-        }
-      }
 
       .error {
         background-color:  $bright_50;
@@ -111,11 +19,19 @@ body {
         font-size: 1rem;
         text-shadow: 1px 1px 2px #1a0000;
         padding: 0 2rem;
+        
       }
 
       .MuiGrid-item {
         text-align: center;
       }
+
+      
     }
   }
 }
+
+@import './game/game';
+@import './account/loginRegister';
+@import './misc/card';
+@import './misc/panes';

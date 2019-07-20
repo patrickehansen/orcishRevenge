@@ -1,0 +1,60 @@
+.chatroll-root {
+  position: absolute;
+  background-color: white;
+  height: 100%;
+  padding: 0;
+
+  div.chatContainer {
+    .chatMessage {
+      hr {
+        margin: 0;
+        opacity: 0.7;
+      }
+
+      .header {
+        display: inline-block;
+        width: 100%;
+
+        span {
+          display: inline-block;          
+        }
+
+        .sender {
+          float: left;
+        }
+    
+        .time {
+          float: right;
+        }
+      }
+    }
+    
+    .MuiCardContent-root {
+      padding: 5px;
+    }
+  }
+
+  form.chatInput {
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+    padding: 0 0.5rem;
+
+    div.chatInputGrid {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      input {
+        order: 0;
+        flex-grow: 1;
+      }
+  
+      button {
+        order: 1;
+        width: 4rem;
+      }
+    }
+    
+  }
+}
