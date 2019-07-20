@@ -1,10 +1,12 @@
 const Hapi = require('hapi');
 const glob = require('glob');
 const path = require('path');
-const config = require ('./config');
 const inert = require('@hapi/inert');
-const token = require('./src/util/token');
 const hapiAuthJWT = require('hapi-auth-jwt2');
+
+const socketServer = require('./src/socket/socketServer');
+const config = require ('./config');
+const token = require('./src/util/token');
 const database = require('./src/data/database');
 
 require('console-ten').init(console);
@@ -22,6 +24,7 @@ const init = async () => {
 
   await server.register(inert);
   await server.register(hapiAuthJWT);
+  const socket = new socketServer(server.listener);
 
   server.auth.strategy('jwt', 'jwt',
   {

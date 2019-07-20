@@ -22,7 +22,7 @@ module.exports.createToken = function createToken(user) {
   //Return a jwt signed token
   return jwt.sign(
     {
-      id: user.UserId, 
+      id: user.id, 
       username: user.Username,
     }, 
     config.secret, 

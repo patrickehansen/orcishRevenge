@@ -16,7 +16,7 @@ module.exports = {
 
     let err;
 
-    let isValid = await dataManager.VerifyUser(username, password).catch(error => {
+    let user = await dataManager.VerifyUser(username, password).catch(error => {
       console.error('Error in verify user', error);
       err = Boom.badImplementation(error.message);
     })
@@ -25,8 +25,8 @@ module.exports = {
       return err;
     }
 
-    if (isValid) {
-      let idToken = token.createToken(username);
+    if (user) {
+      let idToken = token.createToken(user);
 
       return {
         id_token: idToken,

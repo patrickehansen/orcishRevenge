@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Dymnarisk/orcishRevenge#readme",
   "dependencies": {
     "@hapi/inert": "^5.2.1",
+    "auto-bind": "^2.1.0",
     "bcryptjs": "^2.4.3",
     "boom": "^7.3.0",
     "console-ten": "0.0.5",

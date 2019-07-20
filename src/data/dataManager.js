@@ -19,6 +19,10 @@ module.exports.VerifyUser = async function VerifyUser(username, password) {
 
   let isValid = await found.compare(username, password);
 
+  if (isValid) {
+    return found
+  }
+  
   return isValid;
 }
 
