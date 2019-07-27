@@ -1,14 +1,24 @@
 const socketIO = require('socket.io');
 const autoBind = require('auto-bind');
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 
+const dataManager = require('../data/dataManager');
+const roller = require('../game/diceRoller');
 const config = require('../../config');
 
 module.exports = class SocketServer {
   constructor (listener) {
     autoBind(this);
 
-    this.server = socketIO(listener);
+    if (listener) {
+      // Under normal conditions, Hapi will provide the listener
+      this.server = socketIO(listener);
+    }else{
+      // Under testing conditions, we need to listen ourselves
+      this.server = socketIO.listen(5000); 
+    }
+    
     this.chat = this.server.of('/chat');
 
     this.connections = [];
@@ -24,6 +34,7 @@ module.exports = class SocketServer {
 
   handleChatConnection(client) {
     console.log('chat connection!');
+    
 
     client.on('disconnect', this.handleChatDisconnection)
   }
@@ -46,6 +57,12 @@ module.exports = class SocketServer {
       client.Username = decoded.username;
       console.log(`User ${decoded.username} registered.`);
 
+      this.server.sockets.emit('chat', {
+        Type: 'chat',
+        Sent: moment(),
+        Message: `${decoded.username} has joined the game.`
+      });
+
     }catch(error) {
       console.error('Error in register client', error);
       client.disconnect();
@@ -54,13 +71,42 @@ module.exports = class SocketServer {
 
   chatMessage(client, data) {
     console.log(`Chat message: ${data.message} from ${client.Username}`)
-    const built = {
-      Sender: client.Username,
-      Message: data.message,
-      Sent: data.sent,
+
+    let type;
+    let message = data.message;
+
+    let outgoing = {};
+
+    if (data.message[0] === '/') {
+      //command
+      if (data.message.slice(0,4) === '/me ') {
+        outgoing = {
+          Sender: client.Username,
+          Message: data.message,
+          Sent: data.sent,
+          Type: 'emote',
+        }
+      }else if (data.message.slice(0,6) === '/roll ') {
+        const roll = roller.roll(data.message);
+        outgoing = {
+          Sender: client.Username,
+          Roll: roll,
+          Sent: data.sent,
+          Type: 'roll',
+        }
+      }
+    }else{
+      outgoing = {
+        Sender: client.Username,
+        Message: data.message,
+        Sent: data.sent,
+        Type: 'chat',
+      }
     }
 
-    this.server.sockets.emit('chat', built);
+    dataManager.AddChatHistory(outgoing);
+
+    this.server.sockets.emit('chat', outgoing);
   }
 
   // onJoin(...args) {
@@ -69,6 +115,13 @@ module.exports = class SocketServer {
 
   handleDisconnect(client){
     //Disconnect
+    
+    this.server.sockets.emit('chat', {
+      Type: 'chat',
+      Sent: moment(),
+      Message: `${client.Username} has disconnected.`
+    });
+
     this.connections.splice(this.connections.indexOf(client));
     console.log(`Socket: client disconnected: ${this.connections.length} sockets connected.`)
   }

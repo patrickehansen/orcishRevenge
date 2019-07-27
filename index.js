@@ -1,4 +1,4 @@
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const glob = require('glob');
 const path = require('path');
 const inert = require('@hapi/inert');
@@ -8,6 +8,7 @@ const socketServer = require('./src/socket/socketServer');
 const config = require ('./config');
 const token = require('./src/util/token');
 const database = require('./src/data/database');
+const diceRoller = require('./src/game/diceRoller');
 
 require('console-ten').init(console);
 //Setup the server
@@ -28,7 +29,7 @@ const init = async () => {
 
   server.auth.strategy('jwt', 'jwt',
   {
-    key: config.key,
+    key: config.secret,
     validate: token.validateToken,
     verifyOptions: { 
       ignoreExpiration: true, //do not reject expired tokens. we will check if a refresh is necessary.
@@ -79,3 +80,5 @@ process.on('unhandledRejection', async (err) => {
 process.on('uncaughtException', err => {
     console.log('uncaught exception', err);
 })
+
+
