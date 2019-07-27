@@ -7,3 +7,8 @@ export const addChatMessage = (message) => ({
   type: 'ADD_CHAT_MESSAGE',
   message: message,
 })
+
+export const setChatMessages = (messages) => ({
+  type: 'SET_CHAT_MESSAGES',
+  messages
+})

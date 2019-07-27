@@ -18,6 +18,10 @@ const authenticationReducer = (state = defaultAuthenticationState, action) => {
         return Object.assign({}, state, {
           chatMessages: [...state.chatMessages, action.message]
         })
+      case 'SET_CHAT_MESSAGES' :
+        return Object.assign({}, state, {
+          chatMessages: action.messages,
+        })
       default:
     return state;
   }

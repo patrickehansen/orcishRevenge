@@ -12,7 +12,7 @@ import {styles} from '../misc/styles';
 
 import ErrorComponent from '../util/error';
 
-import register from '../../requests/register';
+import register from '../../requests/account/register';
 import { Collapse, Paper } from '@material-ui/core';
 
 const IsEmailValid = (Email) => {

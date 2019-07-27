@@ -11,7 +11,7 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 import { withStyles} from '@material-ui/styles';
 
 import ErrorComponent from '../util/error';
-import auth from '../../requests/login';
+import auth from '../../requests/account/login';
 import { setToken } from '../../store/actions/actions';
 import store from '../../store/store';
 import config from '../../../config';

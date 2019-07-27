@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Container from '@material-ui/core/Container';
 import SplitPane from 'react-split-pane';
 
+import getChatHistory from '../../requests/chat/getChatHistory';
 import Board from './board';
 import ChatRoll from './chatroll';
 import ErrorComponent from '../util/error';
@@ -20,6 +21,8 @@ class Game extends Component {
     componentDidMount() {
       console.log('Game component mounted. connecting to socket..')
       this.socketClient = new SocketClient({});
+
+      getChatHistory()
     }
 
     onSendChat = (message) => {
@@ -27,6 +30,7 @@ class Game extends Component {
     }
 
     render() {
+      console.log('hey here')
       return (
         <Container component='div' className='gameView-root'>
           <SplitPane 

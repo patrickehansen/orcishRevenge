@@ -22,7 +22,7 @@ class Board extends Component {
       e.preventDefault();
 
       localStorage.removeItem(config.localstorageKey);
-      this.store.dispatch(setToken(null));
+      this.props.store.dispatch(setToken(null));
 
       this.setState({
         loggedOut: true,

@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Container from '@material-ui/core/Container';
 
+import ChatList from './chat/chatList';
 import ErrorComponent from '../util/error';
-import ChatMessage from './chat/chatMessage';
+
+const supportedCommands = ['me', 'roll']
 
 class ChatRoll extends Component {
     constructor(props) {
@@ -15,39 +17,59 @@ class ChatRoll extends Component {
       }
     }
 
-    sendChat=(e) => {
-      e.preventDefault();
+    sendChat=(message) => {
+      if (message[0] === '/') {
+        let command = message.slice(1, message.indexOf(' '));
 
-      let message = e.target.elements.chatMessage.value;
-      e.target.elements.chatMessage.value = '';
+        if (!supportedCommands.includes(command)) {
+          this.setState({error: `Command ${command} not supported.`})
+          return;
+        }
+      }
 
-      console.log('message', message);
       this.props.onSendChat(message);
     }
+
+    onKeyDown=(e) => {
+      if(e.keyCode == 13 && e.shiftKey == false) {
+        e.preventDefault();
+
+        const message = e.target.value;
+
+        e.target.value = '';
+        this.sendChat(message);
+      }
+    }
+
+    onSubmit=(e) => {
+      e.preventDefault();
+
+      const message = e.target.elements.chatMessage.value;
+
+      e.target.elements.chatMessage.value = '';
+
+      this.sendChat(message);
+    }
+
+    // 
+
 
     render() {
       return (
         <Container component='div' className='chatroll-root'>
-          <div className='chatContainer'>
-            {
-              this.props.messages.map((v,i) => {
-                return (
-                  <ChatMessage message={v} key={i} />
-                )
-              })
-            }
+          <ChatList messages={this.props.messages || []}/>
+          <form ref={el => this.myFormRef = el} onSubmit={this.onSubmit} className='chatInput'>
+          <hr />
+          <div className='chatInputGrid'>
+            <textarea 
+              type='text'
+              name='chatMessage'
+              onKeyDown={this.onKeyDown}
+            />
+            <button>Send</button>
           </div>
-          <form onSubmit={this.sendChat} className='chatInput'>
-            <hr />
-            <div className='chatInputGrid'>
-              <input 
-                type='text'
-                name='chatMessage'
-              />
-              <button>Send</button>
-            </div>
-           
-          </form>
+         
+        </form>
           <ErrorComponent error={this.state.error} />
         </Container>
       )

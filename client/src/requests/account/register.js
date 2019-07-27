@@ -1,15 +1,16 @@
 'use strict';
 
 import axios from 'axios';
-import config from '../../config';
+import config from '../../../config';
 
-const api = config.server + '/api/account/login';
+const api = config.server + '/api/account/register';
 
-export default async function login (username, password) {
+export default async function register (username, email, password) {
   let response = await axios.post(
     api,
     {
       username,
+      email,
       password,
     }
   ).catch((error) => {
@@ -20,5 +21,6 @@ export default async function login (username, password) {
     }
   })
 
+  console.log('register reponse', response);
   return response.data;
 }
