@@ -13,7 +13,7 @@ function parseRoll (text) {
       diefound = true;
     }else{
       if (!diefound) {
-        a.count = v;
+        a.count += v;
       }else{
         if (operators.includes(v)) {
           a.operator = v;
