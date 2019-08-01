@@ -1,10 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import SplitPane from 'react-split-pane';
 
 import getChatHistory from '../../requests/chat/getChatHistory';
 import Board from './board';
+import CharacterSelect from './characterSelection/characterSelect';
 import ChatRoll from './chatroll';
 import ErrorComponent from '../util/error';
 import SocketClient from '../../socket/socketClient';
@@ -15,6 +17,7 @@ class Game extends Component {
 
       this.state = {
         error: null,
+        loggedOut: false,
       }
     }
 
@@ -29,8 +32,23 @@ class Game extends Component {
       this.socketClient.SendChatMessage(message);
     }
 
+    onLogout = () => {
+      localStorage.removeItem(config.localstorageKey);
+      store.dispatch(setToken(null));
+
+      this.setState({
+        loggedOut: true,
+      })
+
+      this.socketClient.disconnect();
+      this.socketClient = null;
+    }
+
     render() {
-      console.log('hey here')
+      if (this.state.loggedOut) {
+        return <Redirect to='/' />
+      }
+
       return (
         <Container component='div' className='gameView-root'>
           <SplitPane 
@@ -40,15 +58,25 @@ class Game extends Component {
             maxSize={650} 
             primary='second'
             >
-            <Board />
+            <Board 
+              onLogout = {this.onLogout}
+            />
             <ChatRoll 
               onSendChat={this.onSendChat}
             />
           </SplitPane>
+          <CharacterSelect open={!this.props.possessedCharacter} />
           <ErrorComponent error={this.state.error} />
         </Container>
       )
     }
 }
 
-export default Game;
+const mapStateToProps = (state) => {
+  return {
+    possessedCharacter: state.possessedCharacter,
+    availableCharacters: state.availableCharacters,
+  }
+}
+
+export default connect(mapStateToProps)(Game);

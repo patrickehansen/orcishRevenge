@@ -3,6 +3,8 @@ import config from '../../../config';
 const defaultAuthenticationState = {
   id_token: localStorage.getItem(config.localstorageKey),
   chatMessages: [],
+  availableCharacters: [],
+  possessedCharacter: null,
 }
   
 console.log(localStorage.getItem(config.localstorageKey))

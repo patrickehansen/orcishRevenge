@@ -12,6 +12,7 @@ const theme = createMuiTheme({
     common: {
       blueGray: '#5A6E78',
       white: '#d8d8d8',
+      dark: 'rgb(50,57,61)',
     },
     tertiary: {
       main: '#003b5e',
@@ -23,6 +24,12 @@ const theme = createMuiTheme({
       default: '#fff',
     },
   },
+  typography: {
+    
+  },
+  sizing: {
+    medium: '1.3rem'
+  }
 });
 
 export default theme;

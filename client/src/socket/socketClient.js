@@ -15,6 +15,10 @@ class SocketClient {
     socket.on('chat', this.handleChatMessage);
   }
 
+  disconnect = () => {
+    this.socket.disconnect();
+  }
+
   onConnect = () => {
     console.log('Socket connection established.')
     const idToken = store.getState().id_token;
