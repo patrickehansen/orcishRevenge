@@ -97,8 +97,7 @@ class CharacterCreator extends Component {
         values.Likes.push({Title: title, Description: description, Label: label})
       }
     })
-
-    //console.log(values);
+    
     const success = await CreateCharacter(values).catch(error => {
       console.error('Error creating character', error);
       this.setState({
@@ -217,7 +216,6 @@ class CharacterCreator extends Component {
             submit={this.setAvatar}
           />
         </div>
-        
       </Modal>
     )
   }

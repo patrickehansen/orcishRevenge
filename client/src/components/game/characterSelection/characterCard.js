@@ -2,15 +2,13 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/styles';
 import {styles} from '../../misc/styles';
 
-import Avatar from '@material-ui/core/Avatar';
 import CardMedia from '@material-ui/core/CardMedia';
 
-class Character extends Component {
+class CharacterCard extends Component {
   constructor(props) {
     super(props);
 
@@ -20,7 +18,6 @@ class Character extends Component {
   }
 
   onClick=(e) => {
-    console.log('click')
     this.props.onSelect(this.props.character.Name, this.props.character._id);
   }
   
@@ -43,4 +40,4 @@ class Character extends Component {
   }
 }
 
-export default withStyles(styles)(Character);
+export default withStyles(styles)(CharacterCard);

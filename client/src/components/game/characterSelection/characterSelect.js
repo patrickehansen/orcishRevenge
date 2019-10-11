@@ -10,7 +10,7 @@ import {withStyles} from '@material-ui/styles';
 import GetAvailableCharacters from '../../../requests/character/availableCharacters';
 import PossessCharacter from '../../../requests/character/possessCharacter';
 import CharacterCreator from './characterCreator';
-import Character from './character';
+import CharacterCard from './characterCard';
 import ErrorComponent from '../../util/error';
 import {styles} from '../../misc/styles';
 
@@ -90,7 +90,7 @@ class CharacterSelect extends Component {
 
                 return (
                   <Grid item key={i} >
-                    <Character character={v} onSelect={this.characterSelected} active={active}/>
+                    <CharacterCard character={v} onSelect={this.characterSelected} active={active}/>
                   </Grid>
                   
                 )
