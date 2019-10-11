@@ -53,11 +53,13 @@ class RPLikes extends Component {
         <Container className={`${classes.horizontalTextContainer} ${classes.tinyMargin}`}>
           <TextField 
             id='Like0'
+            name='Like0'
             placeholder='Like'
             {...titleProps}
           />
           <TextField
             id='LikeDesc0'
+            name='LikeDesc0'
             placeholder='Like Description'
             {...descProps}
           />
@@ -65,11 +67,13 @@ class RPLikes extends Component {
         <Container className={`${classes.horizontalTextContainer} ${classes.tinyMargin}`}>
           <TextField 
             id='Like1'
+            name='Like1'
             placeholder='Like'
             {...titleProps}
           />
           <TextField
             id='LikeDesc1'
+            name='LikeDesc1'
             placeholder='Like Description'
             multiline
             rowsMax='3'
@@ -80,11 +84,13 @@ class RPLikes extends Component {
         <Container className={`${classes.horizontalTextContainer}  ${classes.tinyMargin} verticalSeparator`}>
           <TextField 
             id='Like2'
+            name='Like2'
             placeholder='Like'
             {...titleProps}
           />
           <TextField
             id='LikeDesc2'
+            name='LikeDesc2'
             placeholder='Like Description'
             multiline
             rowsMax='3'
@@ -95,11 +101,13 @@ class RPLikes extends Component {
         <Container className={`${classes.horizontalTextContainer} ${classes.tinyMargin}`}>
           <TextField 
             id='Dislike0'
+            name='Dislike0'
             placeholder='Dislike'
             {...titleProps}
           />
           <TextField
             id='DislikeDesc0'
+            name='DislikeDesc0'
             placeholder='Dislike Description'
             multiline
             rowsMax='3'
@@ -110,11 +118,13 @@ class RPLikes extends Component {
         <Container className={`${classes.horizontalTextContainer} ${classes.tinyMargin}`}>
           <TextField 
             id='Dislike1'
+            name='Dislike1'
             placeholder='Dislike'
             {...titleProps}
           />
           <TextField
-            id='DislikeDisc1'
+            id='DislikeDesc1'
+            name='DislikeDesc1'
             placeholder='Dislike Description'
             multiline
             rowsMax='3'
@@ -124,12 +134,14 @@ class RPLikes extends Component {
           </Container>
         <Container className={`${classes.horizontalTextContainer}  ${classes.tinyMargin} verticalSeparator`}>
           <TextField 
-            id='Dislikes2'
+            id='Dislike2'
+            name='Dislike2'
             placeholder='Dislike'
             {...titleProps}
           />
           <TextField
             id='DislikeDesc2'
+            name='DislikeDesc2'
             placeholder='Dislike Description'
             multiline
             rowsMax='3'
@@ -139,12 +151,14 @@ class RPLikes extends Component {
           </Container>
         <Container className={`${classes.horizontalTextContainer} ${classes.tinyMargin}`}>
           <TextField
-            id='Vices0'
+            id='Vice0'
+            name='Vice0'
             placeholder='Vice'
             {...titleProps}
           />
           <TextField
             id='ViceDesc0'
+            name='ViceDesc0'
             placeholder='Vice Description'
             multiline
             rowsMax='3'
@@ -154,12 +168,14 @@ class RPLikes extends Component {
         </Container>
         <Container className={`${classes.horizontalTextContainer} ${classes.tinyMargin}`}>
           <TextField
-            id='Vices1'
+            id='Vice1'
+            name='Vice1'
             placeholder='Vice'
             {...titleProps}
           />
           <TextField
-            id='ViceDesc0'
+            id='ViceDesc1'
+            name='ViceDesc1'
             placeholder='Vice Description'
             multiline
             rowsMax='3'
@@ -169,12 +185,14 @@ class RPLikes extends Component {
         </Container>
         <Container className={`${classes.horizontalTextContainer}  ${classes.tinyMargin} verticalSeparator`}>
           <TextField
-            id='Vices2'
+            id='Vice2'
+            name='Vice2'
             placeholder='Vice'
             {...titleProps}
           />
           <TextField
-            id='ViceDesc0'
+            id='ViceDesc2'
+            name='ViceDesc2'
             placeholder='Vice Description'
             multiline
             rowsMax='3'
@@ -184,6 +202,7 @@ class RPLikes extends Component {
         </Container>
         <TextField 
           id='GeneralNotes'
+          name='GeneralNotes'
           placeholder='General Notes'
           multiline
           rowsMax='6'

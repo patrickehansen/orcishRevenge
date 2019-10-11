@@ -48,7 +48,7 @@ class Login extends Component {
     if (response && response.id_token) {
       let {id_token: token} = response;
 
-      store.dispatch(setToken( token));
+      setToken( token);
       localStorage.setItem(config.localstorageKey, token);
 
       this.setState({ redirecting: true });

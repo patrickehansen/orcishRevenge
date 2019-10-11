@@ -3,12 +3,16 @@ import React, { Component } from 'react';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
+import Avatar from '@material-ui/core/Avatar';
 
 import {withStyles, mergeClasses} from '@material-ui/styles';
 import {styles} from '../../misc/styles';
 import StatsAssigner from './statsAssigner';
+import AvatarSelector from './avatarSelector';
 import PhysicalCharacteristics from './physicalCharacteristics';
 import { Grid, Button } from '@material-ui/core';
+
+import CreateCharacter from '../../../requests/character/createCharacter';
 import RPlikes from './RPlikes';
 
 class CharacterCreator extends Component {
@@ -35,7 +39,9 @@ class CharacterCreator extends Component {
         Weight: '240',
         Age: '19',
       },
-      remainingPoints: 24
+      remainingPoints: 24,
+      avatarURL: null,
+      avatarSelecting: false,
     }
   }
 
@@ -72,35 +78,80 @@ class CharacterCreator extends Component {
   }
 
   cancel = (e) => {
-
+    this.props.onClose();
   }
 
-  submit = (e) => {
+  submit = async (e) => {
+    e.preventDefault();
+    const values = Object.assign(this.state.stats, this.state.physical);
 
+    values.AvatarURL = this.state.avatarURL;
+    values.GeneralNotes = e.target.elements.GeneralNotes.value;
+    values.Likes = [];
+
+    ['Like', 'Dislike', 'Vice'].forEach((label) => {
+      for (let i = 0; i <= 2; i++) {
+        let title = e.target.elements[`${label}${i}`].value;
+        let description = e.target.elements[`${label}Desc${i}`].value;
+
+        values.Likes.push({Title: title, Description: description, Label: label})
+      }
+    })
+
+    //console.log(values);
+    const success = await CreateCharacter(values).catch(error => {
+      console.error('Error creating character', error);
+      this.setState({
+        error
+      })
+    })
+
+    if (success) {
+      this.props.onClose();
+    }
   }
 
-  // <Grid item xs>
-  //               <PhysicalCharacteristics />
-  //             </Grid>
-  
+  openAvatarChooser = (e) => {
+    this.setState({
+      avatarSelecting : true
+    })
+  }
+
+  closeAvatarChooser = (e) => {
+    this.setState({
+      avatarSelecting : false
+    })
+  }
+
+  setAvatar = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      avatarURL: e.target.elements.avatarURL.value,
+      avatarSelecting: false
+    })
+  }
+
   render() {
     const {classes} = this.props;
-
-    console.log(this.state.physical)
 
     return (
       <Modal 
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={this.props.open}
-        onClose={this.handleClose} 
+        onClose={this.cancel} 
         className='board-root'
         >
         <div className='characterCreator'>
-          <form id='creatorContainer'>
+          <form id='creatorContainer' onSubmit={this.submit}>
             <Container className='characterHeader'>
               <Container className='characterBasicInfo'>
-                <div className='avatarplaceholder' />
+                <Avatar 
+                  className='avatarplaceholder' 
+                  src={this.state.avatarURL} 
+                  onClick={this.openAvatarChooser}
+                />
                 <TextField 
                   id='characterName'
                   label='Name'
@@ -108,6 +159,7 @@ class CharacterCreator extends Component {
                   style={{marginTop: '0.5rem', width: '75%'}}
                   inputProps={{style: {fontSize: '1.8rem'}}}
                   margin='none'
+                  name='Name'
                   variant='outlined'
                   fullWidth={false}
                   autoFocus
@@ -118,6 +170,7 @@ class CharacterCreator extends Component {
                 <Button
                   variant='contained'
                   color='primary'
+                  type='button'
                   className={'cancelBtn'}
                   fullWidth={false}
                   onClick={this.cancel}
@@ -128,9 +181,9 @@ class CharacterCreator extends Component {
                 <Button
                   variant='contained'
                   color='primary'
+                  type='submit'
                   className={'submitBtn'}
                   fullWidth={false}
-                  onClick={this.submit}
                 >
                   Submit
                 </Button>
@@ -158,7 +211,13 @@ class CharacterCreator extends Component {
               
             </Container>
           </form>
+          <AvatarSelector 
+            open={this.state.avatarSelecting}
+            hideAvatar={this.closeAvatarChooser}
+            submit={this.setAvatar}
+          />
         </div>
+        
       </Modal>
     )
   }

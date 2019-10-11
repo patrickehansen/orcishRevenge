@@ -1,6 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
+import Container from '@material-ui/core/Container';
 
+import {withStyles} from '@material-ui/styles';
+import {styles} from '../../misc/styles';
 import Select from '../../misc/select';
 import NumberSelect from '../../misc/numberSelect';
 
@@ -93,8 +96,10 @@ class PhysicalCharacteristics extends Component {
   }
 
   render() {
+    const {classes} = this.props;
+
     return (
-      <div className='physicalCharacteristics'>
+      <Container className={`physicalCharacteristics`}>
         
         <NumberSelect
           id='Age'
@@ -145,9 +150,9 @@ class PhysicalCharacteristics extends Component {
           options={hairColors}
         />
 
-      </div>
+      </Container>
     )
   }
 }
 
-export default PhysicalCharacteristics;
+export default withStyles(styles)(PhysicalCharacteristics);

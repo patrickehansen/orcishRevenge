@@ -3,14 +3,13 @@
 import axios from 'axios';
 import config from '../../../config';
 import store from '../../store/store';
-import {setChatMessages} from '../../store/actions/actions';
 
-const api = config.server + '/api/chatroll/chatHistory';
+const api = config.server + '/api/character/create';
 
-export default async function getChatHistory () {
-  console.log(store, store.getState(), store.getState().id_token)
-  let response = await axios.get(
+export default async function createCharacter (character) {
+  let response = await axios.put(
     api,
+    character,
     {
       headers: {'Authorization': store.getState().account.id_token}
     }
@@ -22,9 +21,5 @@ export default async function getChatHistory () {
     }
   })
 
-  if (response && response.data) {
-    setChatMessages(response.data);
-  }
-
-  return !!response.data;
+  return response;
 }

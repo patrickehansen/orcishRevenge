@@ -1,6 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
-import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Typography from '@material-ui/core/Typography';
+import {withStyles} from '@material-ui/styles';
+import {styles} from '../../misc/styles';
+
+import Avatar from '@material-ui/core/Avatar';
+import CardMedia from '@material-ui/core/CardMedia';
 
 class Character extends Component {
   constructor(props) {
@@ -10,14 +18,29 @@ class Character extends Component {
       error: null,
     }
   }
+
+  onClick=(e) => {
+    console.log('click')
+    this.props.onSelect(this.props.character.Name, this.props.character._id);
+  }
   
   render() {
-    return (
-      <Container component='div' className='board-root'>
+    const {character, classes} = this.props;
 
-      </Container>
+    return (
+      <Card className={`character-root ${this.props.active ? 'active' : ''}`} key={this.props.key} style={{cursor: 'pointer'}} onClick={this.onClick}>
+        <CardContent className={classes.verticalFlex} raised="true">
+          <CardMedia className={classes.grow}>
+            <img className='characterAvatar' src={character.Avatar} />
+          </CardMedia>
+          
+          <Typography component="h1" variant="h5" style={{textAlign: 'center'}} className={classes.fixed}>
+          {character.Name}
+          </Typography>
+        </CardContent>
+      </Card>
     )
   }
 }
 
-export default Character;
+export default withStyles(styles)(Character);

@@ -132,6 +132,11 @@ export const styles = theme => ({
     flexDirection: 'column',
     padding: 0,
   },
+  verticalFlex: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 0,
+  },
   smallButton : {
     minWidth: '2rem',
     width: '2rem',

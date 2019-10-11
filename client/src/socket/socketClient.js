@@ -21,7 +21,7 @@ class SocketClient {
 
   onConnect = () => {
     console.log('Socket connection established.')
-    const idToken = store.getState().id_token;
+    const idToken = store.getState().account.id_token;
     this.socket.emit('register', {
       token: idToken
     })
@@ -33,7 +33,7 @@ class SocketClient {
 
   handleChatMessage = (data) => {
     console.log('received a chat message', data);
-    store.dispatch(addChatMessage(data))
+    addChatMessage(data);
   }
 
   SendChatMessage = (message) => {

@@ -3,12 +3,11 @@
 import axios from 'axios';
 import config from '../../../config';
 import store from '../../store/store';
-import {setChatMessages} from '../../store/actions/actions';
+import {setAccountDetails} from '../../store/actions/actions';
 
-const api = config.server + '/api/chatroll/chatHistory';
+const api = config.server + '/api/account/details';
 
-export default async function getChatHistory () {
-  console.log(store, store.getState(), store.getState().id_token)
+export default async function getAccountDetails () {
   let response = await axios.get(
     api,
     {
@@ -16,6 +15,12 @@ export default async function getChatHistory () {
     }
   ).catch((error) => {
     if (error.response && error.response.data) {
+      console.log(error.response);
+      if (error.response.status === 401) {
+        console.log('logging out by force');
+        localStorage.removeItem(config.localstorageKey);
+        setToken(null);
+      }
       throw new Error(error.response.data.message);
     }else{
       throw new Error('Could not connect to server.');
@@ -23,8 +28,8 @@ export default async function getChatHistory () {
   })
 
   if (response && response.data) {
-    setChatMessages(response.data);
+    setAccountDetails(response.data);
   }
-
+  
   return !!response.data;
 }

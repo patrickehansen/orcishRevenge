@@ -5,7 +5,7 @@ import { Stage } from 'react-konva';
 
 import ErrorComponent from '../util/error';
 
-class Board extends Component {
+class Canvas extends Component {
   constructor(props) {
     super(props);
 
@@ -28,4 +28,4 @@ class Board extends Component {
   }
 }
 
-export default Board;
+export default Canvas;

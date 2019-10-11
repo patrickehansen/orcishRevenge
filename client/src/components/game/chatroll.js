@@ -78,7 +78,7 @@ class ChatRoll extends Component {
 
 const mapStateToProps= (state) => {
   return {
-    messages: state.chatMessages
+    messages: state.chat.chatMessages
   }
 }
 

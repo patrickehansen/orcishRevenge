@@ -3,12 +3,11 @@
 import axios from 'axios';
 import config from '../../../config';
 import store from '../../store/store';
-import {setChatMessages} from '../../store/actions/actions';
+import {setPlayers} from '../../store/actions/actions'
 
-const api = config.server + '/api/chatroll/chatHistory';
+const api = config.server + '/api/game/players';
 
-export default async function getChatHistory () {
-  console.log(store, store.getState(), store.getState().id_token)
+export default async function getPlayers () {
   let response = await axios.get(
     api,
     {
@@ -22,9 +21,7 @@ export default async function getChatHistory () {
     }
   })
 
-  if (response && response.data) {
-    setChatMessages(response.data);
-  }
+  setPlayers(response.data);
 
-  return !!response.data;
+  return;
 }

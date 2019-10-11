@@ -40,7 +40,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthed  : !!state.id_token
+    isAuthed  : !!state.account.id_token
   }
 }
 

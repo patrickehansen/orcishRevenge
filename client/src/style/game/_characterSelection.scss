@@ -22,6 +22,30 @@ div#characterSelectModal {
     margin: 2rem;
     border-radius: 5px;
     box-shadow: 2px 2px 2px black;
+    padding: 2rem;
+
+    .character-root {
+      background: slategray;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+      min-height: 17rem;
+
+      img {
+        border-radius: 10px;
+        box-shadow: 1px 1px 2px black;
+        max-width: 20rem;
+        //max-height: 20rem;
+      }
+
+      
+    }
+
+    .active {
+      background: $secondary;
+    }
+    .playBtn {
+      margin: auto;
+    }
   }
 
   .createBtn {
@@ -75,6 +99,7 @@ div#characterSelectModal {
           background-color: red;
           float: left;
           margin-right: 1rem;
+          cursor: pointer;
         }
   
         .CharacterCreator-textField-76 {

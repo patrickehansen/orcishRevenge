@@ -21,7 +21,7 @@ class StatsAssigner extends Component {
                 value={value} 
                 increment={this.props.increment}
                 decrement={this.props.decrement}
-                canIncrement={this.props.remainingPoints > 0 && value < 20}
+                canIncrement={this.props.remainingPoints > 0 && (value < 20 || key === 'Strength' && value < 25)}
               />
             )
           })

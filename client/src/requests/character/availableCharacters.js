@@ -3,12 +3,11 @@
 import axios from 'axios';
 import config from '../../../config';
 import store from '../../store/store';
-import {setChatMessages} from '../../store/actions/actions';
+import {setAvailableCharacters} from '../../store/actions/actions';
 
-const api = config.server + '/api/chatroll/chatHistory';
+const api = config.server + '/api/character/available';
 
-export default async function getChatHistory () {
-  console.log(store, store.getState(), store.getState().id_token)
+export default async function getAvailableCharacters () {
   let response = await axios.get(
     api,
     {
@@ -23,8 +22,8 @@ export default async function getChatHistory () {
   })
 
   if (response && response.data) {
-    setChatMessages(response.data);
+    setAvailableCharacters(response.data);
   }
-
+  
   return !!response.data;
 }
