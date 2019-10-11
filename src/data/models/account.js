@@ -8,7 +8,8 @@ const accountSchema = new mongoose.Schema({
   Hash: String,
   Created: {type: Date, default: Date.now},
   DisplayName: String,
-  LastLogin: Date
+  LastLogin: Date,
+  IsGM: Boolean,
 }, {_accountid: false})
 
 accountSchema.methods.compare = async function (username, password) {

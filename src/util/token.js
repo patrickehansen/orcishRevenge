@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../../config');
 const dataManager = require('../data/dataManager');
 
-module.exports.validateToken = async function validateToken(decoded) {
+module.exports.validateToken = async function validateToken(decoded, request) {
   console.log('validating token')
   //Get the customer from the database
   let user = await dataManager.FindAccount(decoded.username).catch((error) => {
@@ -13,6 +13,8 @@ module.exports.validateToken = async function validateToken(decoded) {
 
   //Check to see if we have matching customer data
   if (user.id === decoded.id) {
+    request.pre.user = user;
+
     return {isValid: true};
   }else{
     return {isValid: false};

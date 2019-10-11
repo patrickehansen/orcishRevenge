@@ -5,6 +5,7 @@ const moment = require('moment');
 
 const dataManager = require('../data/dataManager');
 const roller = require('../game/diceRoller');
+const game = require('../game/game');
 const config = require('../../config');
 
 module.exports = class SocketServer {
@@ -29,13 +30,14 @@ module.exports = class SocketServer {
     // Chat namespace handler
     this.chat.on('connection', this.handleChatConnection);
 
+    game.registerSocketServer(this);
+
     console.log('Socket server listening..')
   }
 
   handleChatConnection(client) {
     console.log('chat connection!');
     
-
     client.on('disconnect', this.handleChatDisconnection)
   }
   
@@ -113,20 +115,32 @@ module.exports = class SocketServer {
   //   return;
   // }
 
-  handleDisconnect(client){
+  handleDisconnect(reason){
     //Disconnect
-    
+    console.log('disconnected', reason)
+
+    const usernames = Object.values(this.server.sockets.connected).map(v => v.Username);
+    const found = this.connections.find(v => !usernames.includes(v.Username));
+    const username = found ? found.Username : 'Unknown user'
+
     this.server.sockets.emit('chat', {
       Type: 'chat',
       Sent: moment(),
-      Message: `${client.Username} has disconnected.`
+      Message: `${username} has disconnected.`
     });
 
-    this.connections.splice(this.connections.indexOf(client));
     console.log(`Socket: client disconnected: ${this.connections.length} sockets connected.`)
   }
 
   handleChatConnection(client) {
     console.log('chat disconnect')
+  }
+
+  addUser(user) {
+    this.server.sockets.emit('addUser', user);
+  }
+
+  removeUser(user) {
+    this.server.sockets.emit('removeUser', user);
   }
 }

@@ -13,7 +13,8 @@ const diceRoller = require('./src/game/diceRoller');
 require('console-ten').init(console);
 //Setup the server
 const init = async () => {
-  const server = new Hapi.Server({
+  
+  const server = new Hapi.server({
     host: config.host,
     port: config.port,
     routes: {

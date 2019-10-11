@@ -12,7 +12,7 @@ const exporting = {
 };
 
 db.on('error', (error) => {
-  console.log('Mongoose error', error);
+  console.error('Mongoose error', error);
 })
 
 db.once('open', () => {
@@ -21,22 +21,21 @@ db.once('open', () => {
   const accountSchema = require('./models/account');
   accountSchema.plugin(autoIncrement, {inc_field: '_acountid'});
 
-  const Account = mongoose.model('Accounts', accountSchema);
-
   const chatSchema = require('./models/chatHistory');
   chatSchema.plugin(autoIncrement, {inc_field: '_chatHistoryid'});
-
-  const ChatHistory = mongoose.model('ChatHistory', chatSchema)
 
   const rollHistory = require('./models/rollHistory');
   rollHistory.plugin(autoIncrement, {inc_field: '_rollHistoryid'});
 
-  const RollHistory = mongoose.model('RollHistory', rollHistory)
+  const character = require('./models/character');
+  character.plugin(autoIncrement, {inc_field: '_characterid'});
 
+  exporting.Account = mongoose.model('Accounts', accountSchema);
+  exporting.AccountCharacter = mongoose.model('Account_Character', require('./models/account_character'));
+  exporting.Character = mongoose.model('Character', character)
+  exporting.ChatHistory = mongoose.model('ChatHistory', chatSchema);
+  exporting.RollHistory =  mongoose.model('RollHistory', rollHistory);
 
-  exporting.Account = Account;
-  exporting.ChatHistory = ChatHistory;
-  exporting.RollHistory = RollHistory;
   exporting.Ready = true;
 })
 
