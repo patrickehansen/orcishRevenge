@@ -29,12 +29,16 @@ db.once('open', () => {
 
   const character = require('./models/character');
   character.plugin(autoIncrement, {inc_field: '_characterid'});
+  
+  const notepad = require('./models/notepad');
+  notepad.plugin(autoIncrement, {inc_field: '_notepadid'});
 
   exporting.Account = mongoose.model('Accounts', accountSchema);
   exporting.AccountCharacter = mongoose.model('Account_Character', require('./models/account_character'));
   exporting.Character = mongoose.model('Character', character)
   exporting.ChatHistory = mongoose.model('ChatHistory', chatSchema);
   exporting.RollHistory =  mongoose.model('RollHistory', rollHistory);
+  exporting.Notepad = mongoose.model('Notepads', notepad);
 
   exporting.Ready = true;
 })

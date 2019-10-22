@@ -46,11 +46,13 @@ const characterSchema = new mongoose.Schema({
     of: Number,
   },
 
+  Notepads: [Number],
+
   // Attributes
   Endurance: Number,
   Strength: Number,
   Agility: Number,
-  Skill: Number,
+  Reasoning: Number,
   Speed: Number,
   MagicalAffinity: Number, // Static at 8
   Alertness: Number,
