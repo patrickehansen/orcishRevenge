@@ -3,19 +3,16 @@ const dataManager = require('../../data/dataManager');
 
 module.exports = {
   method: 'GET',
-  path: '/api/chatroll/chatHistory',
+  path: '/api/notepad/{id}',
   handler: async (req) => {
-    let err;
-    let history = await dataManager.GetChatHistory().catch(error => {
-      console.error('Error getting chat history', error);
-      err = error;
+    let id = req.params.id;
+
+    const notepad = await dataManager.GetNotepad(id).catch(e => {
+      console.error('Error getting notepad', e);
+      throw Boom.badImplementation();
     })
 
-    if (err) {
-      return Boom.badImplementation(err.message);
-    }
-
-    return history;
+    return notepad;
   },
   config: {
     auth: 'jwt',

@@ -1,7 +1,3 @@
-'use strict';
-const Boom = require('boom');
-const dataManager = require('../../data/dataManager');
-const config = require('../../../config');
 const game = require('../../game/game');
 
 module.exports = {
