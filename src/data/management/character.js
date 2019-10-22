@@ -111,3 +111,7 @@ module.exports.CreateCharacter = async function CreateCharacter(character, useri
     
   return created && join;
 }
+
+module.exports.GetAllCharacters = function GetAllCharacters() {
+  return database.Character.find();
+}

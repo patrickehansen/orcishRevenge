@@ -38,7 +38,7 @@ db.once('open', () => {
   exporting.Character = mongoose.model('Character', character)
   exporting.ChatHistory = mongoose.model('ChatHistory', chatSchema);
   exporting.RollHistory =  mongoose.model('RollHistory', rollHistory);
-  exporting.Notepad = mongoose.model('Notepads', notepad);
+  exporting.Notepads = mongoose.model('Notepads', notepad);
 
   exporting.Ready = true;
 })

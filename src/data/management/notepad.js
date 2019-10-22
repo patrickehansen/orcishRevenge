@@ -1,8 +1,8 @@
 const database = require('../database');
-const {EditorState, convertToRaw} = require('draft-js');
+const character = require('./character');
 
 module.exports.CreateNotepad = async function CreateNotepad(text) {
-  const Text = text || convertToRaw(EditorState.createEmpty().getCurrentContent());
+  const Text = text || {};
   const created = await database.Notepads.create({Text})
 
   return created;
@@ -28,3 +28,4 @@ module.exports.SaveNotepad = async function SaveNotepad(id, text) {
 
   await found.save();
 }
+
