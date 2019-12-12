@@ -5,11 +5,22 @@ module.exports = {
   method: 'POST',
   path: '/api/notepad',
   handler: async (req) => {
-    const notepad = await dataManager.CreateNotepad().catch(e => {
+    const {Title, Text, CharacterID} = req.payload;
+
+    const notepad = await dataManager.CreateNotepad(Title, Text).catch(e => {
       throw Boom.badImplementation()
     });
 
-    return notepad;
+    let character;
+
+    if (CharacterID) {
+      character = await dataManager.AddNotepadToCharacter(CharacterID, notepad._notepadid);
+    }
+
+    return {
+      notepad,
+      character
+    };
   },
   config: {
     auth: 'jwt',

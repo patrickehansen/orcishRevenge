@@ -4,14 +4,13 @@ const config = require('../../config');
 const dataManager = require('../data/dataManager');
 
 module.exports.validateToken = async function validateToken(decoded, request) {
-  console.log('validating token')
-  //Get the customer from the database
+  //Get the user account from the database
   let user = await dataManager.FindAccount(decoded.username).catch((error) => {
     console.log('Error getting user in validateToken', error);
     return {isValid: false};
   });
 
-  //Check to see if we have matching customer data
+  //Check to see if we have matching user record and assign the pre data.
   if (user.id === decoded.id) {
     request.pre.user = user;
 

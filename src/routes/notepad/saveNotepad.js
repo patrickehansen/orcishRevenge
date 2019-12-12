@@ -5,9 +5,9 @@ module.exports = {
   method: 'PATCH',
   path: '/api/notepad',
   handler: async (req) => {
-    const {id, text} = req.payload;
+    const {NotepadID, Text, Title} = req.payload;
 
-    await dataManager.SaveNotepad(id,text).catch(e => {
+    await dataManager.SaveNotepad(NotepadID,Text, Title).catch(e => {
       throw Boom.badImplementation();
     })
 

@@ -51,7 +51,7 @@ module.exports.CreateCharacter = async function CreateCharacter(character, useri
     return a;
   }, {likes: [], dislikes: [],vices: []})
 
-  let mainNotepad = await this.CreateNotepad();
+  let mainNotepad = await this.CreateNotepad('General Notes', {});
 
   const toCreate = {
     Created: moment(),
@@ -114,4 +114,29 @@ module.exports.CreateCharacter = async function CreateCharacter(character, useri
 
 module.exports.GetAllCharacters = function GetAllCharacters() {
   return database.Character.find();
+}
+
+module.exports.AddNotepadToCharacter = async function AddNotepadToCharacter(characterID, notepadID) {
+  const character = await database.Character.findOne({
+    '_id' : characterID
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (character && !character.Notepads.includes(notepadID)) {
+    try {
+      character.Notepads.push(notepadID);
+
+      await character.save();
+    }catch(error) {
+      console.error('hey', error);
+      
+    }
+    
+
+    return character;
+  }
+
+  return null;
 }
