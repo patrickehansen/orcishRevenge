@@ -8,6 +8,7 @@ const socketServer = require('./src/socket/socketServer');
 const config = require ('./config');
 const token = require('./src/util/token');
 const database = require('./src/data/database');
+const dataManager = require('./src/data/dataManager');
 const diceRoller = require('./src/game/diceRoller');
 
 require('console-ten').init(console);
@@ -66,12 +67,14 @@ let inGB = (totalHeapSize / 1024 / 1024 / 1024).toFixed(2);
 console.log(`Total heap size (bytes) ${totalHeapSize} (GB ~${inGB})`);
 
 //Startup the server, then do some things
-init().then(server => {
-    console.log('Server running at:', server.info.uri);
-    //console.log('Building definitions..');
-})
-.catch(error => {
-    console.log(error);
+init().then(async (server) => {
+  console.log('Server running at:', server.info.uri);
+    
+  while (!database.Ready) {
+    await new Promise(resolve => setTimeout(resolve, 100))
+  }
+}).catch(error => {
+  console.log(error);
 });
 
 process.on('unhandledRejection', async (err) => {
@@ -81,5 +84,4 @@ process.on('unhandledRejection', async (err) => {
 process.on('uncaughtException', err => {
     console.log('uncaught exception', err);
 })
-
 
