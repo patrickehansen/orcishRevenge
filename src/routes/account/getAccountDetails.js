@@ -17,8 +17,8 @@ module.exports = {
     }
 
     const trimmed = {
-      Username: account.Username,
-      IsGM: account.IsGM,
+      username: account.Username,
+      isGM: account.IsGM,
     }
 
     return trimmed;

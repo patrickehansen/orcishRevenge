@@ -28,7 +28,7 @@ module.exports = {
       let idToken = token.createToken(user);
 
       return {
-        id_token: idToken,
+        IDToken: idToken,
       }
     }
 
