@@ -19,7 +19,7 @@ db.once('open', () => {
   console.log('Mongo connection opened!');
 
   const accountSchema = require('./models/account');
-  accountSchema.plugin(autoIncrement, {inc_field: '_acountid'});
+  accountSchema.plugin(autoIncrement, {inc_field: '_accountid'});
 
   const chatSchema = require('./models/chatHistory');
   chatSchema.plugin(autoIncrement, {inc_field: '_chatHistoryid'});
@@ -28,7 +28,6 @@ db.once('open', () => {
   rollHistory.plugin(autoIncrement, {inc_field: '_rollHistoryid'});
 
   const character = require('./models/character');
-  character.plugin(autoIncrement, {inc_field: '_characterid'});
   
   const notepad = require('./models/notepad');
   notepad.plugin(autoIncrement, {inc_field: '_notepadid'});

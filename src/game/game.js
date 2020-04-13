@@ -26,6 +26,7 @@ class Game {
     // Notify the socket
     this._socketServer.addUser({
       PlayerName: player.Username,
+      Character: character,
       Type: 'player'
     })
   }

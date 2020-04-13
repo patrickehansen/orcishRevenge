@@ -30,6 +30,7 @@
     "glob": "^7.1.4",
     "hapi": "^18.1.0",
     "hapi-auth-jwt2": "^8.6.1",
+    "mathjs": "^6.6.2",
     "moment": "^2.24.0",
     "mongoose": "^5.6.4",
     "mongoose-sequence": "^5.1.0",

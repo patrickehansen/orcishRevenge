@@ -1,4 +1,21 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-sequence')(mongoose);
+
+const skill = new mongoose.Schema({
+  Name: String,
+  Score: Number,
+  MPCost: Number,
+  APCost: Number,
+  Damage: String,
+  Notes: String,
+}, {_skillid: false}).plugin(autoIncrement, {inc_field: '_skillid'});
+
+const skillSection = new mongoose.Schema({
+  SectionName: String,
+  Placement: String,
+  Skills: [ skill ],
+}, {_sectionid: false}).plugin(autoIncrement, {inc_field: '_sectionid'});
+
 
 const characterSchema = new mongoose.Schema({
   _characterid: Number,
@@ -61,7 +78,10 @@ const characterSchema = new mongoose.Schema({
   Melee: Number,
   Accuracy: Number,
 
-}, {_characterid: false})
+  // Skills array
+  Skills: [ skillSection ],
+}, {_characterid: false}).plugin(autoIncrement, {inc_field: '_characterid'});
+
 
 // max HP = Endurance * 3
 // max AP = Speed * 3

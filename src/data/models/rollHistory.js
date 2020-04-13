@@ -8,7 +8,7 @@ const rollHistorySchema = new mongoose.Schema({
   Size: Number,
   Count: Number,
   Operator: String,
-  Post: Number,
+  Post: String,
   Raw: String,
   Total: Number,
 }, {_rollHistoryid: false})

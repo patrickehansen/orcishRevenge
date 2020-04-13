@@ -12,6 +12,8 @@ module.exports = class SocketServer {
   constructor (listener) {
     autoBind(this);
 
+    this.users = [];
+
     if (listener) {
       // Under normal conditions, Hapi will provide the listener
       this.server = socketIO(listener);
@@ -46,7 +48,8 @@ module.exports = class SocketServer {
     console.log(`Socket: client connected: ${this.connections.length} sockets connected.`)
     client.on('disconnect', this.handleDisconnect);
     client.on('register', (data) => {this.registerClient(client, data)});
-    client.on('chat', (data) => {this.chatMessage(client, data)})
+    client.on('chat', (data) => {this.chatMessage(client, data)});
+    client.on('roll', (data) => {this.rollMessage(client, data)});
   }
 
   registerClient(client, data){
@@ -69,6 +72,30 @@ module.exports = class SocketServer {
       console.error('Error in register client', error);
       client.disconnect();
     }
+  }
+
+  rollMessage(client, data) {
+    console.log(`Roll message received:`, client.Username, data);
+    const user = this.users.find(v => v.PlayerName === client.Username);
+
+    if (!user) return;
+
+    let result;
+    if (data.type === 'stat') {
+      result = roller.rollStat(data.roll, user ? user.Character : null);
+    }else if (data.type === 'macro') {
+      result = roller.rollMacro(data.roll, user ? user.Character : null);
+    }
+
+    const outgoing = {
+      Sender: client.Username,
+      Sent: data.sent,
+      Roll: result,
+      Type: 'roll',
+    }
+
+    dataManager.AddChatHistory(outgoing);
+    this.server.sockets.emit('chat', outgoing);
   }
 
   chatMessage(client, data) {
@@ -137,10 +164,13 @@ module.exports = class SocketServer {
   }
 
   addUser(user) {
+    this.users.push(user);
     this.server.sockets.emit('addUser', user);
   }
 
   removeUser(user) {
+    this.users = this.users.filter(v => v.PlayerName !== user.PlayerName);
+
     this.server.sockets.emit('removeUser', user);
   }
 }
