@@ -1,14 +1,14 @@
 const Boom = require('boom');
-const dataManager = require('../../data/dataManager');
+const dataManager = require('../../../data/dataManager');
 
 module.exports = {
-  method: 'POST',
-  path: '/api/character/skillSection/delete',
+  method: 'PUT',
+  path: '/api/character/skillSection/create',
   handler: async (req) => {
     let err;
 
-    const updated = await dataManager.DeleteSkillSection(req.payload, req.pre.user.id).catch(error => {
-      console.error('Error deleting skill section', error);
+    const updated = await dataManager.AddSkillSection(req.payload, req.pre.user.id).catch(error => {
+      console.error('Error creating skill section', error);
       err = error;
     })
 

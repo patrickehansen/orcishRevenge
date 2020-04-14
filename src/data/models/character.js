@@ -16,6 +16,21 @@ const skillSection = new mongoose.Schema({
   Skills: [ skill ],
 }, {_sectionid: false}).plugin(autoIncrement, {inc_field: '_sectionid'});
 
+const item = new mongoose.Schema({
+  Quantity: Number,
+  Name: String,
+  Effect: String,
+  Armor: String,
+  Damage: String,
+  Notes: String,
+}, {_itemid: false}).plugin(autoIncrement, {inc_field: '_itemid'});
+
+const itemSection = new mongoose.Schema({
+  SectionName: String,
+  Placement: String,
+  Items: [ item ],
+}, {_itemsectionid: false}).plugin(autoIncrement, {inc_field: '_itemsectionid'});
+
 
 const characterSchema = new mongoose.Schema({
   _characterid: Number,
@@ -80,6 +95,7 @@ const characterSchema = new mongoose.Schema({
 
   // Skills array
   Skills: [ skillSection ],
+  Items: [ itemSection ],
 }, {_characterid: false}).plugin(autoIncrement, {inc_field: '_characterid'});
 
 

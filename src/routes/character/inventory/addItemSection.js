@@ -1,14 +1,14 @@
 const Boom = require('boom');
-const dataManager = require('../../data/dataManager');
+const dataManager = require('../../../data/dataManager');
 
 module.exports = {
-  method: 'POST',
-  path: '/api/character/skills/edit',
+  method: 'PUT',
+  path: '/api/character/itemSection/create',
   handler: async (req) => {
     let err;
 
-    const updated = await dataManager.EditSkill(req.payload, req.pre.user.id).catch(error => {
-      console.error('Error creating skill', error);
+    const updated = await dataManager.AddItemSection(req.payload, req.pre.user.id).catch(error => {
+      console.error('Error creating item section', error);
       err = error;
     })
 
@@ -17,8 +17,9 @@ module.exports = {
     }
 
     if (updated) {
-      // Tell the socket server that an update has been made to this character and send out the new data
+       // Tell the socket server that an update has been made to this character and send out the new data
     }
+
 
     return updated;
   },

@@ -87,7 +87,7 @@ module.exports.CreateCharacter = async function CreateCharacter(character, useri
     Endurance: character.Endurance,
     Strength: character.Strength,
     Agility: character.Agility,
-    Skill: character.Skill,
+    Reasoning: character.Reasoning,
     Speed: character.Speed,
     MagicalAffinity: character.MagicAffinity,
     Alertness: character.Alertness,
@@ -288,6 +288,164 @@ module.exports.EditSkillSection = async function EditSkillSection(data, userID) 
   } else{
     // Reorder
     section.Skills = data.Skills;
+  }
+
+  await character.save();
+
+  return character;
+}
+
+
+
+module.exports.AddItem = async function AddItem(itemData, userID) {
+  const character = await database.Character.findOne({
+    '_id' : itemData.character
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found');
+
+  let section = character.Items.find(v => v.id === itemData.SectionID);
+
+  if (!section) {
+    throw new Error('Section does not exist');
+  }
+
+  // HMMMMMMMM
+  section.Items.push({
+    Name: itemData.Name,
+    Quantity: itemData.Quantity,
+    Effect: itemData.Effect,
+    Armor: itemData.Armor,
+    Damage: itemData.Damage,
+    Notes: itemData.Notes,
+  })
+
+  await character.save();
+
+  return character;
+}
+
+module.exports.AddItemSection = async function AddItemSection(itemData, userID) {
+  const character = await database.Character.findOne({
+    '_id' : itemData.character
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found')
+
+  const existing = character.Items.find(v => v.SectionName === itemData.SectionName);
+
+  if (existing) {
+    throw new Error('Section with that name already exists.')
+  }
+
+  character.Items.push( {
+    SectionName: itemData.SectionName,
+    Placement: itemData.Placement,
+    Items: [],
+  })
+
+  await character.save();
+
+  return character;
+}
+
+module.exports.DeleteItem = async function DeleteItem(data, userID) {
+  const character = await database.Character.findOne({
+    '_id' : data.character
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found')
+
+  const section = character.Items.find(v => v['id'] === data.SectionID);
+
+  section.Items = section.Items.filter(v => v.id !== data['_id']);
+
+  await character.save();
+
+  return character;
+}
+
+module.exports.DeleteItemSection = async function DeleteItemSection(data, userID) {
+  const character = await database.Character.findOne({
+    '_id' : data.character
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found')
+
+  character.Items = character.Items.filter(v => v.SectionName !== data.SectionName);
+
+  await character.save();
+
+  return character;
+}
+
+
+module.exports.EditItem = async function EditItem(data, userID) {
+  const character = await database.Character.findOne({
+    '_id' : data.character
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found')
+
+  const section = character.Items.find(v => v['id'] === data.Item.SectionID);
+  const extant = section.Items.find(v => v['id'] === data.Item['_id']);
+
+  console.log(extant, data.Item)
+
+  const { Item } = data;
+
+  Object.entries(Item).forEach(([key,value]) => {
+    if (key == '_id' || key == 'SectionID') return;
+    if (extant[key] != value) extant[key] = value;
+  })
+
+  await character.save();
+
+  return character;
+}
+
+module.exports.EditItemSection = async function EditItemSection(data, userID) {
+  const character = await database.Character.findOne({
+    '_id' : data.character
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found');
+
+  const section = character.Items.find(v => v['id'] === data['_id']);
+
+  section.SectionName = data.SectionName;
+  section.Placement = data.Placement;
+
+  if (section.Items.length > data.Items.length) {
+    const newIds = data.Items.map(v => v._id);
+    const index = section.Items.findIndex(v => !newIds.includes(v.id));
+
+    section.Items.splice(index, 1);
+  }else if (section.Items.length < data.Items.length) {
+    const newIndex = data.Items.findIndex(v => !v._id);
+
+    section.Items.splice(newIndex, 0, data.Items[newIndex]);
+  } else{
+    // Reorder
+    section.Items = data.Items;
   }
 
   await character.save();
