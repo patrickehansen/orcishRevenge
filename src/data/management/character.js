@@ -452,3 +452,75 @@ module.exports.EditItemSection = async function EditItemSection(data, userID) {
 
   return character;
 }
+
+module.exports.EditCharacterStats = async function EditCharacterStats(payload, userid) {
+  const character = await database.Character.findOne({
+    '_id' : payload.CharacterID
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found');
+
+  Object.entries(payload.Stats).forEach(([key, value]) => {
+    if (typeof value === 'object') {
+      if (character[key].Current !== value.Current) {
+        character[key].Current = value.Current
+      }
+
+      if (character[key].Total !== value.Total) {
+        character[key].Total = value.Total
+      }
+    }else{
+      if (character[key] !== value) {
+        character[key] = value;
+      }
+    }
+  })
+
+  await character.save();
+
+  return character;
+}
+
+module.exports.EditCharacterRP = async function EditCharacterRP(payload, userid) {
+  const character = await database.Character.findOne({
+    '_id' : payload.CharacterID
+  }).catch(error => {
+    console.error('Error in characters.find', error);
+    throw error;
+  })
+
+  if (!character) throw new Error('Character not found');
+
+Object.entries(payload.RP).forEach(([key, value]) => {
+    const index = key.slice(-1);
+    const descIndex = key.indexOf('Desc');
+    let type;
+
+    if (descIndex) {
+      type = key.slice(0, descIndex);
+    }else{
+      type = key.slice(0, -1);
+    }
+
+    const currentBlock = character[type + 's'][index - 1];
+
+    if (descIndex > -1) {
+      //Description
+      if (currentBlock.Description !== value) {
+        currentBlock.Description = value;
+      }
+    }else{
+      //Title
+      if (currentBlock.Title !== value) {
+        currentBlock.Title = value;
+      }
+    }
+  })
+
+  await character.save();
+
+  return character;
+}

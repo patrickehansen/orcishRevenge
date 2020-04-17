@@ -3,13 +3,20 @@ const dataManager = require('../../data/dataManager');
 
 module.exports = {
   method: 'PATCH',
-  path: '/api/notepad',
+  path: '/api/character/editRP',
   handler: async (req) => {
-    const saved = await dataManager.SaveNotepad(req.payload).catch(e => {
-      throw Boom.badImplementation();
+    let err;
+
+    let success = await dataManager.EditCharacterRP(req.payload, req.pre.user.id).catch(error => {
+      console.error('Error editting character RP', error);
+      err = error;
     })
 
-    return saved;
+    if (err) {
+      return Boom.badImplementation(err.message);
+    }
+
+    return success;
   },
   config: {
     auth: 'jwt',

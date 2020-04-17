@@ -20,17 +20,18 @@ module.exports.GetNotepad = async function GetNotepad(id) {
   return found;
 }
 
-module.exports.SaveNotepad = async function SaveNotepad(id, text, title) {
-  const found = await this.GetNotepad(id);
+module.exports.SaveNotepad = async function SaveNotepad(notepad) {
+  const found = await this.GetNotepad(notepad._notepadid);
 
-  if (text && found.Text !== text) {
-    found.Text = text;
+  if (found.Text !== notepad.Text) {
+    found.Text = notepad.Text;
   }
 
-  if (title && found.Title !== title) {
-    found.Title = title;
+  if (found.Title !== notepad.Title) {
+    found.Title = notepad.Title;
   }
 
   await found.save();
-}
 
+  return found;
+}

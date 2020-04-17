@@ -31,6 +31,15 @@ const itemSection = new mongoose.Schema({
   Items: [ item ],
 }, {_itemsectionid: false}).plugin(autoIncrement, {inc_field: '_itemsectionid'});
 
+const like = new mongoose.Schema({
+  Title: String,
+  Description: String,
+})
+
+const points = new mongoose.Schema({
+  Current: Number,
+  Total: Number,
+})
 
 const characterSchema = new mongoose.Schema({
   _characterid: Number,
@@ -51,32 +60,14 @@ const characterSchema = new mongoose.Schema({
   GeneralNotes: String,
 
   // RP Personality descriptors
-  Dislikes: [{
-    type: Map,
-    of: String,
-  }],
-  Likes: [{
-    type: Map,
-    of: String,
-  }],
-  Vices: [{
-    type: Map,
-    of: String,
-  }],
+  Dislikes: [like],
+  Likes: [like],
+  Vices: [like],
 
   // Status points
-  Health: {
-    type: Map,
-    of: Number
-  },
-  MagicPoints: {
-    type: Map,
-    of: Number,
-  },
-  ActionPoints: {
-    type: Map,
-    of: Number,
-  },
+  HitPoints: points,
+  MagicPoints: points,
+  ActionPoints: points,
 
   Notepads: [Number],
 
@@ -86,7 +77,7 @@ const characterSchema = new mongoose.Schema({
   Agility: Number,
   Reasoning: Number,
   Speed: Number,
-  MagicalAffinity: Number, // Static at 8
+  MagicalAffinity: Number, 
   Alertness: Number,
 
   // Static starts at twelve
