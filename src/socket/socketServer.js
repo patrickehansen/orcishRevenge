@@ -42,17 +42,35 @@ module.exports = class SocketServer {
     
     client.on('disconnect', this.handleChatDisconnection)
   }
-  
+
+  handleSubscribe(client, data) {
+    console.log('subscribe', data);
+
+  }
+
+  handleRoomMessage (client, data) {
+    this.server.to(data.room).emit('roomMessage', data.message)
+  }
+
   handleConnection(client){
+
     this.connections.push(client);
     console.log(`Socket: client connected: ${this.connections.length} sockets connected.`)
     client.on('disconnect', this.handleDisconnect);
     client.on('register', (data) => {this.registerClient(client, data)});
     client.on('chat', (data) => {this.chatMessage(client, data)});
     client.on('roll', (data) => {this.rollMessage(client, data)});
+    client.on('room', (data) => {this.handleRoomMessage(client, data)});
   }
 
   registerClient(client, data){
+    const room = client.handshake.address
+    client.join(room);
+    client.emit('roomInfo', room);
+    this.server.to(room).emit('roomMessage', { type: 'join', data: data.id })
+
+    if (!data.token) return;
+
     try {
       let decoded = jwt.verify(data.token, config.secret);
       if (!decoded) {
@@ -67,10 +85,8 @@ module.exports = class SocketServer {
         Sent: moment(),
         Message: `${decoded.username} has joined the game.`
       });
-
     }catch(error) {
       console.error('Error in register client', error);
-      client.disconnect();
     }
   }
 
@@ -147,15 +163,18 @@ module.exports = class SocketServer {
     console.log('disconnected', reason)
 
     const usernames = Object.values(this.server.sockets.connected).map(v => v.Username);
-    const found = this.connections.find(v => !usernames.includes(v.Username));
-    const username = found ? found.Username : 'Unknown user'
+    const foundIndex = this.connections.findIndex(v => !usernames.includes(v.Username));
+    const found = this.connections[foundIndex];
 
-    this.server.sockets.emit('chat', {
-      Type: 'chat',
-      Sent: moment(),
-      Message: `${username} has disconnected.`
-    });
+    if (found && found.Username) {
+      this.server.sockets.emit('chat', {
+        Type: 'chat',
+        Sent: moment(),
+        Message: `${found.Username} has disconnected.`
+      });
+    }
 
+    this.connections.splice(foundIndex, 1);
     console.log(`Socket: client disconnected: ${this.connections.length} sockets connected.`)
   }
 
