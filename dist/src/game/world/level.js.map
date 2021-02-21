@@ -1,0 +1,1 @@
+{"version":3,"file":"level.js","sourceRoot":"","sources":["../../../../src/game/world/level.ts"],"names":[],"mappings":";;;AAAA,mCAAsC;AAGtC,MAAa,KAAM,SAAQ,qBAAY;IAIrC,YAAY,KAAK,EAAE,KAAK;QACtB,KAAK,EAAE,CAAC;QAER,IAAI,CAAC,MAAM,GAAG,KAAK,CAAC;QACpB,IAAI,CAAC,MAAM,GAAG,KAAK,CAAC;IACtB,CAAC;CACF;AAVD,sBAUC"}

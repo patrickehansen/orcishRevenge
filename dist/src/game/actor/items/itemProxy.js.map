@@ -1,0 +1,1 @@
+{"version":3,"file":"itemProxy.js","sourceRoot":"","sources":["../../../../../src/game/actor/items/itemProxy.ts"],"names":[],"mappings":";;;AAAA,oCAAiC;AAGjC,MAAa,SAAU,SAAQ,aAAK;IAGlC,YAAY,EAAU,EAAE,IAAU;QAChC,KAAK,CAAC,EAAE,CAAC,CAAC;QAEV,IAAI,CAAC,KAAK,GAAG,IAAI,CAAC;IACpB,CAAC;IAEM,IAAI;QACT,IAAI,CAAC,OAAO,EAAE,CAAC;QACf,OAAO,IAAI,CAAC,KAAK,CAAC;IACpB,CAAC;CACF;AAbD,8BAaC"}

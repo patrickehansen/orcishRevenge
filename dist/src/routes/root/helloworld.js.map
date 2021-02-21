@@ -1,0 +1,1 @@
+{"version":3,"file":"helloworld.js","sourceRoot":"","sources":["../../../../src/routes/root/helloworld.js"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,GAAG;IACf,MAAM,EAAE,KAAK;IACb,IAAI,EAAE,aAAa;IACnB,OAAO,EAAE,CAAC,GAAG,EAAE,CAAC,EAAE,EAAE;QAChB,OAAO,cAAc,CAAC;IAC1B,CAAC;IACD,MAAM,EAAE;QACN,IAAI,EAAE,KAAK;KACZ;CACF,CAAA"}
